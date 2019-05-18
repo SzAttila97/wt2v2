@@ -5,25 +5,24 @@ import WorkerActions from "../../stores/worker/worker.actions"
 export class Worker extends React.Component {
 
     state = {
-        workerId: WorkerStore.getWorker(),
-        orders: WorkerStore.getOrders(1),
-        error: WorkerStore.getError()
+        orders: WorkerStore.getOrders(),
+        error: WorkerStore.getError(),
+        louverAmount: 0,
+        cordLength: 0,
+        dye: 0,
+        screwAmount: 0,
+        material: "",
+        color: "",
+        net:0,
+        netSize: 0,
+        orderId: 0
+
     };
 
     componentDidMount() {
         if (this.state.orders.length === 0) {
             WorkerActions.fetchOrders();
         }
-
-        WorkerStore.on('workerUpdated', () => {
-            this.setState({
-                workerId: WorkerStore.getWorker()
-            }, () => {
-                if (this.state.workerId) {
-                    WorkerActions.fetchOrders(this.state.workerId);
-                }
-            });
-        });
 
         WorkerStore.on('ordersUpdated', () => {
             this.setState({
@@ -37,12 +36,26 @@ export class Worker extends React.Component {
                 error: WorkerStore.getError()
             });
         });
-
-
     }
 
-    onWorkerChange = (event) => {
-        WorkerActions.updateLoggedInWorker(event.target.value);
+    onClickRow (selectedRow){
+        const louverAmount = Math.floor(selectedRow.shutter.height / 5);
+        const cordLength = selectedRow.shutter.height * 2;
+        const dye = selectedRow.shutter.width / 20;
+        const screwAmount = Math.floor(selectedRow.shutter.width /20);
+        const netSize = Math.floor((selectedRow.shutter.height + selectedRow.shutter.width)*1.1)
+        this.setState({
+            selectedRow: selectedRow,
+            louverAmount,
+            cordLength,
+            dye,
+            screwAmount,
+            material: selectedRow.shutterMaterial,
+            color:selectedRow.shutterColor,
+            net:selectedRow.shutterNet,
+            netSize,
+            orderId : selectedRow._id
+        });
     };
 
     render() {
@@ -53,57 +66,94 @@ export class Worker extends React.Component {
 
                 <div className="row">
                     <div className="col-md-4">
-                        <div className="from-group">
-                            <select className="form-control" value={this.state.workerId} onChange={this.onWorkerChange}>
-                                <option value="">Logged out</option>
-                                <option value="1">Worker 1</option>
-                                <option value="2">Worker 2</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <h2>Rendelések</h2>
-                <div className="table-responsive">
-                    <table className="table table-condensed table-striped">
-                        <thead>
-                        <tr>
-                            <th>Azonosító</th>
-                            <th>Méretek</th>
-                            <th>Net</th>
-                            <th>Szín</th>
-                            <th></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {this.state.orders.map((value, i) => {
-                            return (
-                                <tr key={i}>
-                                    <td>{value._id}</td>
-                                    <td>{value.shutter ? value.shutter.width : ''} x {value.shutter ? value.shutter.height : ''}</td>
-                                    <td>{value.shutterNet ? 'Yes' : 'No'}</td>
-                                    <td>{value.shutterColor}</td>
-                                    <td>{value.status}</td>
-                                    <td>
-                                        {value.status === 'accepted'
-                                            ?
-                                            <div>
-                                                <button onClick={() => WorkerActions.takeOrder(value._id)}>
-                                                   Take Order!
-                                                </button>
-                                                <button onClick={() => WorkerActions.doneOrder(value._id)}>
-                                                    Done!
-                                                </button>
-                                            </div>
-                                            :
-                                            null
-                                        }
-                                    </td>
+                        <h2>Orders</h2>
+                        <div className="table-responsive">
+                            <table className="table table-condensed table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Order ID</th>
                                 </tr>
-                            )
-                        })}
-                        </tbody>
-                    </table>
+                                </thead>
+                                <tbody>
+                                {this.state.orders.map((value, i) => {
+                                    if (value.status === 'accepted')return (
+                                        <tr key={i}>
+                                            <td>{value._id}</td>
+                                            <td>
+                                                {value.status === 'accepted'
+                                                    ?
+                                                    <div>
+                                                        <button className="btn btn-primary" onClick={() => WorkerActions.takeOrder(value._id)}>
+                                                           Take Order!
+                                                        </button>
+                                                    </div>
+                                                    :
+                                                    null
+                                                }
+                                            </td>
+                                        </tr>
+                                    )
+                                })}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div><div className="col-md-8">
+                        <h2>My Jobs</h2>
+                        <div className="table-responsive">
+                            <table className="table table-condensed table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Order Informations</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {this.state.orders.map((value, i) => {
+                                    if (value.status === 'taken') return (
+                                        <tr key={i} onClick={this.onClickRow.bind(this ,value)}>
+                                            <td>{value._id}</td>
+                                            <td>{value.shutter ? value.shutter.width : ''} x {value.shutter ? value.shutter.height : ''}</td>
+                                            <td>{value.shutterNet ? 'Yes' : 'No'}</td>
+                                            <td>{value.shutterColor}</td>
+                                            <td>{value.shutterMaterial}</td>
+                                            <td>{value.status}</td>
+                                            <td>
+                                                {value.status === 'taken'
+                                                    ?
+                                                    <div>
+                                                        <button className="btn btn-primary" onClick={() => WorkerActions.doneOrder(value._id)}>
+                                                            Done!
+                                                        </button>
+                                                    </div>
+                                                    :
+                                                    null
+                                                }
+                                            </td>
+                                        </tr>
+                                    )
+                                })}
+                                </tbody>
+                            </table>
+
+                        </div>
+                    {this.state.screwAmount === 0 ?
+                        null
+                        :
+                        <div>
+                            <div className="card text-white bg-dark col-md-6">
+                                <div className="card-header text-dark bg-light">
+                                    Required Parts
+                                    ({this.state.orderId})
+                                </div>
+                                <ul className="list-group list-group-flush ">
+                                    <li className="list-group-item text-white bg-dark">Screw x {this.state.screwAmount}</li>
+                                    <li className="list-group-item text-white bg-dark">{this.state.louverAmount} {this.state.material} louvers</li>
+                                    <li className="list-group-item text-white bg-dark">Cord : {this.state.cordLength} cm</li>
+                                    <li className="list-group-item text-white bg-dark">{this.state.dye} Deciliter {this.state.color} dye </li>
+                                    <li className="list-group-item text-white bg-dark">Mosquito net: {this.state.net ? 'Yes, ' : 'No' } {this.state.net ? this.state.netSize + ' cm ' : null } </li>
+                                </ul>
+                            </div>
+                        </div>}
+                    </div>
                 </div>
             </div>
         )

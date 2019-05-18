@@ -11,7 +11,7 @@ function App() {
       <div className="container">
           <Router>
               <nav className="navbar navbar-expand-lg navbar-light bg-light">
-                  <a className="navbar-brand" href="./"><span role="image" aria-label="bee">🐝</span>Redőny</a>
+                  <a className="navbar-brand" href="./"><span role="image" aria-label="bee">🐝</span>BeeShutter! BeeAwesome!</a>
                   <button className="navbar-toggler" type="button" data-toggle="collapse"
                           data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                           aria-expanded="false" aria-label="Toggle navigation">
@@ -22,12 +22,12 @@ function App() {
                       <ul className="navbar-nav mr-auto">
                           <li className="nav-item">
                               <Link className="nav-link" to="/">
-                                  Vásárló
+                                  Customer
                               </Link>
                           </li>
                           <li className="nav-item">
                               <Link className="nav-link" to="/worker">
-                                  Munkás
+                                  Worker
                               </Link>
                           </li>
                           <li className="nav-item">

@@ -65,6 +65,13 @@ export class Customer extends React.Component {
         CustomerActions.updateLoggedInUser(event.target.value);
     };
 
+
+  /*  onSubmitUserName = (event) => {
+        CustomerActions.updateLoggedInUser(event.target.value);
+    };
+*/
+
+
     onSizeChange = (event) => {
         const val = event.target.value;
         this.setState({
@@ -111,6 +118,7 @@ export class Customer extends React.Component {
         });
     };
 
+
     onSubmit = (event) => {
         event.preventDefault();
 
@@ -137,13 +145,23 @@ export class Customer extends React.Component {
                 {this.state.error ? <div className="alert alert-danger">{this.state.error}</div> : null}
 
                 <div className="row">
-                    <div className="col-md-4">
+                    <div className="col-md-2">
                         <div className="from-group">
-                            <select className="form-control" value={this.state.userId} onChange={this.onUserChange}>
+                            {/*<select className="form-control" value={this.state.userId} onChange={this.onUserChange}>
                                 <option value="">Logged out</option>
                                 <option value="1">Customer 1</option>
                                 <option value="2">Customer 2</option>
-                            </select>
+                            </select>*/}
+
+
+                                <div className="form-group">
+                                    <label>Username:</label>
+                                    <input onChange={this.onUserChange} value={this.state.userId}
+                                           className="form-control"/>
+                                </div>
+                                <button variant="primary" type="submit" onClick={this.onUserChange}>Log in</button>
+
+
                         </div>
                     </div>
                 </div>
@@ -152,7 +170,7 @@ export class Customer extends React.Component {
                 {
                     this.state.userId ?
                         <div className="row">
-                            <div className="col-md-6">
+                            <div className="col-md-8">
                                 <h2>Shopping Cart</h2>
                                 <div className="table-responsive">
                                     <table className="table table-condensed table-striped">
@@ -169,7 +187,7 @@ export class Customer extends React.Component {
                                         </thead>
                                         <tbody>
                                         {this.state.orders.map((value, i) => {
-                                            return (
+                                            if (value.status !== 'declined')return (
                                                 <tr key={i}>
                                                     <td>{value._id}</td>
                                                     <td>{value.shutter ? value.shutter.width : ''} x {value.shutter ? value.shutter.height : ''}</td>
@@ -178,7 +196,7 @@ export class Customer extends React.Component {
                                                     <td>{value.shutterMaterial}</td>
                                                     <td>{value.price}</td>
                                                     <td>
-                                                        {value.status === 'pending' //&& value.price !== null//
+                                                        {value.status === 'priced' //&& value.price !== null//
                                                             ?
                                                             <div>
                                                                 <button type="button" class="btn btn-success btn-block"
@@ -201,7 +219,7 @@ export class Customer extends React.Component {
                                     </table>
                                 </div>
                             </div>
-                            <div className="col-md-6">
+                            <div className="col-md-4">
                                 <h2>New Item</h2>
                                 <form onSubmit={this.onSubmit}>
                                     <div className="form-group">
@@ -255,9 +273,49 @@ export class Customer extends React.Component {
                                     <button className="btn btn-primary">Add to cart</button>
                                 </form>
                             </div>
+                            {this.state.error ? <div className="alert alert-danger">{this.state.error}</div> : null}
+
+                            <h2>Invoice</h2>
+                            <div className="table-responsive">
+                                <table className="table table-condensed table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>OrderID</th>
+                                        <th>Size</th>
+                                        <th>Net</th>
+                                        <th>Color</th>
+                                        <th>Material</th>
+                                        <th>Price</th>
+                                        <th>Date</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {this.state.orders.filter(e => e.status === 'closed').map((value, i) => {
+                                        return (
+                                            <tr key={i}>
+                                                <td>{value._id}</td>
+                                                <td>{value.shutter ? value.shutter.width : ''} x {value.shutter ? value.shutter.height : ''}</td>
+                                                <td>{value.shutterNet ? 'Yes' : 'No'}</td>
+                                                <td>{value.shutterColor}</td>
+                                                <td>{value.shutterMaterial}</td>
+                                                <td>{value.price}</td>
+                                                <td>{value.installationDate}</td>
+                                                <td>
+                                                </td>
+                                            </tr>
+                                        )
+                                    })}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
+
+
                     : null
+
                 }
+
             </div>
         )
     }

@@ -6,21 +6,15 @@ import {
     TAKE_ORDERS_ERROR,
     DONE_ORDERS_ERROR,
     TAKE_ORDERS_SUCCESS,
-    DONE_ORDERS_SUCCESS, UPDATE_WORKER
+    DONE_ORDERS_SUCCESS
 } from "./worker.actions";
 
 class WorkerStore extends EventEmitter {
     orders = [];
     error = '';
-    workerId = '';
 
     handleActions(action) {
         switch (action.type) {
-            case UPDATE_WORKER:
-                this.workerId = action.workerId;
-                this.emit('workerUpdated');
-                break;
-
             case FETCH_ORDERS_SUCCESS:
                 this.orders = action.orders;
                 this.emit("ordersUpdated");
@@ -64,9 +58,6 @@ class WorkerStore extends EventEmitter {
         return this.error;
     }
 
-    getWorker() {
-        return this.workerId;
-    }
 }
 
 const workerStore = new WorkerStore();

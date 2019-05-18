@@ -51,7 +51,6 @@ class ManagerStore extends EventEmitter {
                 this.emit("errorUpdated");
                 break;
 
-
             case PAID_ORDERS_SUCCESS:
                 this.orders.find(e => e._id === action.orderId).status = 'paid';
                 this.emit("ordersUpdated");
@@ -73,7 +72,7 @@ class ManagerStore extends EventEmitter {
                 break;
 
             case PRICE_ORDERS_SUCCESS:
-                this.orders.find(e => e._id === action.orderId).price = '200';
+                this.orders.find(e => e._id === action.orderId).price = action.price;
                 this.emit("ordersUpdated");
                 break;
 
@@ -87,7 +86,7 @@ class ManagerStore extends EventEmitter {
         }
     }
 
-    getOrders() {
+        getOrders() {
         return this.orders;
     }
 

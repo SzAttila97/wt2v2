@@ -14,13 +14,13 @@ export const PAID_ORDERS_SUCCESS = 'PAID_ORDERS_SUCCESS';
 export const PAID_ORDERS_ERROR = 'PAID_ORDERS_ERROR';
 
 export const PRICED_ORDERS_SUCCESS = 'PRICED_ORDERS_SUCCESS';
-export const PRICED_ORDERS_ERROR = 'PRICED_ORDERS_ERROR'
+export const PRICED_ORDERS_ERROR = 'PRICED_ORDERS_ERROR';
 
 export const CLOSED_ORDERS_SUCCESS = 'CLOSED_ORDERS_SUCCESS';
 export const CLOSED_ORDERS_ERROR = 'CLOSED_ORDERS_ERROR';
 
-export const PRICE_ORDERS_SUCCESS = 'PRICE_ORDERS_SUCCESS'
-export const PRICE_ORDERS_ERROR = 'PRICE_ORDERS_ERROR'
+export const PRICE_ORDERS_SUCCESS = 'PRICE_ORDERS_SUCCESS';
+export const PRICE_ORDERS_ERROR = 'PRICE_ORDERS_ERROR';
 
 class ManagerActions {
     fetchOrders() {
@@ -35,7 +35,7 @@ class ManagerActions {
         });
     }
 
-    okOrder(userId, orderId) {
+    okOrder(orderId) {
         axios.get('http://localhost:8080/api/manager/orders/' + orderId + '/ok').then(resp => {
             if (resp.error) {
                 dispatcher.dispatch({type: OK_ORDERS_ERROR, error: resp.data.error});
@@ -95,8 +95,8 @@ class ManagerActions {
         });
     }
 
-    priceOrder(orderId) {
-        axios.post('http://localhost:8080/api/manager/orders/' + orderId + '/price').then(resp => {
+    priceOrder(orderId, price) {
+        axios.post('http://localhost:8080/api/manager/orders/' + orderId + + price + '/update-price').then(resp => {
             if (resp.error) {
                 dispatcher.dispatch({type: PRICE_ORDERS_ERROR, error: resp.data.error});
             } else {
