@@ -1,3 +1,3 @@
-{"shutterID":1, "material":"wood", "color":"brown", "price":100}
-{"shutterID":2, "material":"steal", "color":"white", "price":200}
-{"shutterID":3, "material":"steal", "color":"grey", "price":150}
+{"shutterID":1, "material":"Wood", "color":"brown", "price":100}
+{"shutterID":2, "material":"Plastic", "color":"white", "price":200}
+{"shutterID":3, "material":"Aluminium", "color":"black", "price":150}

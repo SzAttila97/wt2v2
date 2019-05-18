@@ -23,7 +23,7 @@ class CustomerController {
         });
     }
 
-    declineOrder(req, res) {
+    /*declineOrder(req, res) {
         OrderService.updateById(req.params.orderId, {status: 'deleted'}, function(err, data) {
             if (err) {
                 res.json({error: err});
@@ -32,10 +32,10 @@ class CustomerController {
 
             res.json(data);
         });
-    }
+    }*/
 
     declineOrder(req, res) {
-        OrderService.updateById(req.params.orderId, {status: 'deleted'}, function(err, data) {
+        OrderService.updateById(req.params.orderId, {status: 'declined'}, function(err, data) {
             if (err) {
                 res.json({error: err});
                 return;

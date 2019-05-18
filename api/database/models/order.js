@@ -25,19 +25,14 @@ const orderSchema = new mongoose.Schema({
         default: null
     },
     price:{
-        type: Number,
+        type: String,
         require: false,
         default: null
     },
     customerId:{
-        type: Number,
+        type: String,
         require: true,
     },
-    workerId:{
-        type: Number,
-        require: false,
-        default: null
-    }
 });
 
 const Order = mongoose.model('Order', orderSchema);

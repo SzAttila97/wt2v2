@@ -1,8 +1,9 @@
 const OrderService = require('../services/order.service');
 
 class WorkerController {
-    getAvailableOrders(req, res) {  // Összes vállalható order listázása!
-        OrderService.getByStatus('accepted', function (err, data) {
+
+    getOrders(req, res) {
+        OrderService.getAll(function (err, data) {
             if (err) {
                 res.json({error: err});
                 return;
@@ -11,17 +12,6 @@ class WorkerController {
             res.json(data);
         });
     }
-    getTakenOrders(req, res) {  // Összes vállalt order listázása!
-        OrderService.getByWorker(req.params.workerId, function (err, data) {
-            if (err) {
-                res.json({error: err});
-                return;
-            }
-
-            res.json(data);
-        });
-    }
-
 
     takeOrder(req, res) {
         OrderService.updateById(req.params.orderId, {status: 'taken'}, function(err, data) {

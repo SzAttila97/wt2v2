@@ -22,7 +22,8 @@ class ManagerController {
             res.json(data);
         });
     }
-    getOrders(req, res) {       //getAll??
+
+    getOrders(req, res) {
         OrderService.getAll(function (err, data) {
             if (err) {
                 res.json({error: err});
@@ -91,7 +92,7 @@ class ManagerController {
     }
 
     priceOrder(req, res) {
-        OrderService.updateById(req.params.orderId, {price: '200'}, function(err, data) {
+        OrderService.updateById(req.params.orderId, {price: "200"}, function(err, data) {
             if (err) {
                 res.json({error: err});
                 return;

@@ -6,8 +6,8 @@ class OrderDao {
         Order.find({customerId: userId}).populate('shutter').exec(cb);
     }
 
-    getByWorker(userId, cb) {
-        Order.find({workerId: userId}).populate('shutter').exec(cb);
+    getByWorker(workerId, cb) {
+        Order.find({workerId: workerId}).populate('shutter').exec(cb);
     }
 
     getAll(cb) {
