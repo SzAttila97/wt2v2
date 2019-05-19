@@ -45,7 +45,7 @@ class ManagerController {
         });
     }
 
-    datedOrder(req, res) {
+    /*datedOrder(req, res) {
         OrderService.updateById(req.params.orderId, {status: 'dated'}, function(err, data) {
             if (err) {
                 res.json({error: err});
@@ -54,7 +54,7 @@ class ManagerController {
 
             res.json(data);
         });
-    }
+    }*/
 
     pricedOrder(req, res) {
         OrderService.updateById(req.params.orderId, {status: 'priced'}, function(err, data) {
@@ -92,7 +92,18 @@ class ManagerController {
     }
 
     priceOrder(req, res) {
-        OrderService.updateById(req.params.orderId, {price: "200"}, function(err, data) {
+        OrderService.updateById(req.params.orderId, {price: req.params.price, status:'priced'}, function(err, data) {
+            if (err) {
+                res.json({error: err});
+                return;
+            }
+
+            res.json(data);
+        });
+    }
+
+    dateOrder(req, res) {
+        OrderService.updateById(req.params.orderId, {installationDate: req.params.installationDate, status:'dated'}, function(err, data) {
             if (err) {
                 res.json({error: err});
                 return;

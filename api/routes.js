@@ -35,6 +35,7 @@ router.get('/api/manager/orders/:orderId/ok', managerController.okOrder);
 router.get('/api/manager/orders/:orderId/paid', managerController.paidOrder);
 router.get('/api/manager/orders/:orderId/closed', managerController.closedOrder);
 router.post('/api/manager/orders/:orderId/:price/update-price', managerController.priceOrder);
+router.post('/api/manager/orders/:orderId/:installationDate/update-installationDate', managerController.dateOrder);
 
 
 module.exports = router;
