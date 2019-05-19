@@ -107,8 +107,8 @@ export class Manager extends React.Component {
                         </thead>
                         <tbody>
 
-                        {this.state.orders.filter(e => e.status === 'pending').map((value, i) => {
-                            return (
+                        {this.state.orders.map((value, i) => {
+                            if (value.status === 'pending' && value.price !== 0)return(
 
                                 <tr key={i}>
                                     <td>{value._id}</td>
@@ -147,12 +147,12 @@ export class Manager extends React.Component {
                         </tr>
                         </thead>
                         <tbody>
-                        {this.state.orders.filter(e => e.status === 'done').map((value, i) => {
-                            return (
+                        {this.state.orders.map((value, i) => {
+                            if (value.status === 'done') return (
                                 <tr key={i}>
                                     <td>{value._id}</td>
                                     <td>
-                                        <button onClick={() => ManagerActions.okOrder(value._id)}>
+                                        <button  className="btn btn-light" onClick={() => ManagerActions.okOrder(value._id)}>
                                             Accept Job!
                                         </button>
                                     </td>
@@ -173,26 +173,32 @@ export class Manager extends React.Component {
                             <th>CustomerId</th>
                             <th>Date</th>
                             <th></th>
+                            <th><input onChange={this.onDateChange} value={this.state.formDate}
+                                       type="date"
+                                       className="form-control"/>
+                            </th>
                         </tr>
                         </thead>
                         <tbody>
-                        {this.state.orders.filter(e => e.status === 'ok').map((value, i) => {
-                            return (
+                        {this.state.orders.map((value, i) => {
+                            if (value.status === 'ok' || value.status === 'dated') return (
                                 <tr key={i}>
                                     <td>{value._id}</td>
                                     <td>{value.customerId}</td>
+                                    <td>{value.installationDate}</td>
+                                    <td></td>
                                     <td>
-                                        <input onChange={this.onDateChange} value={this.state.formDate}
-                                               type="date"
-                                               className="form-control"/>
-                                    </td>
-                                    <td>
-                                        <button className="btn btn-outline-warning btn-block" onClick={() => ManagerActions.datedOrder(value._id)}>
-                                            Set Date!
-                                        </button>
-                                        <button className="btn btn-outline-success btn-block" onClick={() => ManagerActions.paidOrder(value._id)}>
-                                            Paid!
-                                        </button>
+
+                                        {value.status === 'dated' ?
+                                            <button className="btn btn-outline-success btn-block" onClick={() => ManagerActions.paidOrder(value._id)}>
+                                                Paid!
+                                            </button>
+                                        :
+                                            <button className="btn btn-outline-warning btn-block" onClick={() => ManagerActions.dateOrder(value._id, this.state.formDate)}>
+                                                Set Date!
+                                            </button>
+                                       }
+
                                     </td>
                                 </tr>
                             )
@@ -222,8 +228,8 @@ export class Manager extends React.Component {
                         </tr>
                         </thead>
                         <tbody>
-                        {this.state.orders.filter(e => e.status === 'paid').map((value, i) => {
-                            return (
+                        {this.state.orders.map((value, i) => {
+                            if (value.status === 'paid')return (
                                 <tr key={i}>
                                     <td>{value._id}</td>
                                     <td>{value.customerId}</td>

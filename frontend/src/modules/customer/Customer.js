@@ -61,15 +61,15 @@ export class Customer extends React.Component {
         });
     }
 
-    onUserChange = (event) => {
-        CustomerActions.updateLoggedInUser(event.target.value);
-    };
+     onUserChange = (event) => {
+         CustomerActions.updateLoggedInUser(event.target.value);
+     };
 
 
-  /*  onSubmitUserName = (event) => {
-        CustomerActions.updateLoggedInUser(event.target.value);
-    };
-*/
+     onLoginClick = (event) => {
+         CustomerActions.updateLoggedInUser(event.target.value);
+     };
+
 
 
     onSizeChange = (event) => {
@@ -159,7 +159,7 @@ export class Customer extends React.Component {
                                     <input onChange={this.onUserChange} value={this.state.userId}
                                            className="form-control"/>
                                 </div>
-                                <button variant="primary" type="submit" onClick={this.onUserChange}>Log in</button>
+                                <button variant="primary" type="submit" onClick={this.onLoginClick} value={this.state.userId}>Log in</button>
 
 
                         </div>
@@ -211,6 +211,12 @@ export class Customer extends React.Component {
                                                             :
                                                             null
                                                         }
+                                                    </td>
+                                                    <td>
+                                                        {value.installationDate ?
+                                                        <div>{value.installationDate}</div>
+                                                        :
+                                                        null}
                                                     </td>
                                                 </tr>
                                             )
@@ -286,7 +292,7 @@ export class Customer extends React.Component {
                                         <th>Color</th>
                                         <th>Material</th>
                                         <th>Price</th>
-                                        <th>Date</th>
+                                        <th>Installation Date</th>
                                         <th></th>
                                     </tr>
                                     </thead>

@@ -4,15 +4,17 @@ import {
     FETCH_ORDERS_SUCCESS,
     FETCH_ORDERS_ERROR,
     OK_ORDERS_ERROR,
-    DATED_ORDERS_ERROR,
+    // DATED_ORDERS_ERROR,
     OK_ORDERS_SUCCESS,
-    DATED_ORDERS_SUCCESS,
+    // DATED_ORDERS_SUCCESS,
     PAID_ORDERS_ERROR,
     CLOSED_ORDERS_ERROR,
     PAID_ORDERS_SUCCESS,
     CLOSED_ORDERS_SUCCESS,
     PRICE_ORDERS_ERROR,
-    PRICE_ORDERS_SUCCESS
+    PRICE_ORDERS_SUCCESS,
+    DATE_ORDERS_ERROR,
+    DATE_ORDERS_SUCCESS
 } from "./manager.actions";
 
 class ManagerStore extends EventEmitter {
@@ -41,7 +43,7 @@ class ManagerStore extends EventEmitter {
                 this.emit("errorUpdated");
                 break;
 
-            case DATED_ORDERS_SUCCESS:
+            /*case DATED_ORDERS_SUCCESS:
                 this.orders.find(e => e._id === action.orderId).status = 'dated';
                 this.emit("ordersUpdated");
                 break;
@@ -49,7 +51,7 @@ class ManagerStore extends EventEmitter {
             case DATED_ORDERS_ERROR:
                 this.error = action.error;
                 this.emit("errorUpdated");
-                break;
+                break;*/
 
             case PAID_ORDERS_SUCCESS:
                 this.orders.find(e => e._id === action.orderId).status = 'paid';
@@ -73,10 +75,22 @@ class ManagerStore extends EventEmitter {
 
             case PRICE_ORDERS_SUCCESS:
                 this.orders.find(e => e._id === action.orderId).price = action.price;
+                this.orders.find(e => e._id === action.orderId).status = 'priced';
                 this.emit("ordersUpdated");
                 break;
 
             case PRICE_ORDERS_ERROR:
+                this.error = action.error;
+                this.emit("errorUpdated");
+                break;
+
+                case DATE_ORDERS_SUCCESS:
+                this.orders.find(e => e._id === action.orderId).installationDate = action.installationDate;
+                this.orders.find(e => e._id === action.orderId).status = 'dated';
+                this.emit("ordersUpdated");
+                break;
+
+            case DATE_ORDERS_ERROR:
                 this.error = action.error;
                 this.emit("errorUpdated");
                 break;

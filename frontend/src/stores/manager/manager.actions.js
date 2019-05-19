@@ -7,8 +7,8 @@ export const FETCH_ORDERS_ERROR = 'FETCH_ORDERS_ERROR';
 export const OK_ORDERS_SUCCESS = 'OK_ORDERS_SUCCESS';
 export const OK_ORDERS_ERROR = 'OK_ORDERS_ERROR';
 
-export const DATED_ORDERS_SUCCESS = 'DATED_ORDERS_SUCCESS';
-export const DATED_ORDERS_ERROR = 'DATED_ORDERS_ERROR';
+/*export const DATED_ORDERS_SUCCESS = 'DATED_ORDERS_SUCCESS';
+export const DATED_ORDERS_ERROR = 'DATED_ORDERS_ERROR';*/
 
 export const PAID_ORDERS_SUCCESS = 'PAID_ORDERS_SUCCESS';
 export const PAID_ORDERS_ERROR = 'PAID_ORDERS_ERROR';
@@ -21,6 +21,9 @@ export const CLOSED_ORDERS_ERROR = 'CLOSED_ORDERS_ERROR';
 
 export const PRICE_ORDERS_SUCCESS = 'PRICE_ORDERS_SUCCESS';
 export const PRICE_ORDERS_ERROR = 'PRICE_ORDERS_ERROR';
+
+export const DATE_ORDERS_SUCCESS = 'DATE_ORDERS_SUCCESS';
+export const DATE_ORDERS_ERROR = 'DATE_ORDERS_ERROR';
 
 class ManagerActions {
     fetchOrders() {
@@ -47,7 +50,7 @@ class ManagerActions {
         });
     }
 
-    datedOrder(orderId) {
+    /*datedOrder(orderId) {
         axios.get('http://localhost:8080/api/manager/orders/' + orderId + '/delete').then(resp => {
             if (resp.error) {
                 dispatcher.dispatch({type: DATED_ORDERS_ERROR, error: resp.data.error});
@@ -57,7 +60,7 @@ class ManagerActions {
         }).catch(error => {
             dispatcher.dispatch({type: DATED_ORDERS_ERROR, error: error.message});
         });
-    }
+    }*/
 
     paidOrder(orderId) {
         axios.get('http://localhost:8080/api/manager/orders/' + orderId + '/paid').then(resp => {
@@ -71,7 +74,7 @@ class ManagerActions {
         });
     }
 
-    pricedOrder(orderId) {
+    /*pricedOrder(orderId) {
         axios.get('http://localhost:8080/api/manager/orders/' + orderId + '/priced').then(resp => {
             if (resp.error) {
                 dispatcher.dispatch({type: PRICED_ORDERS_ERROR, error: resp.data.error});
@@ -81,7 +84,7 @@ class ManagerActions {
         }).catch(error => {
             dispatcher.dispatch({type: PAID_ORDERS_ERROR, error: error.message});
         });
-    }
+    }*/
 
     closedOrder(orderId) {
         axios.get('http://localhost:8080/api/manager/orders/' + orderId + '/closed').then(resp => {
@@ -96,7 +99,18 @@ class ManagerActions {
     }
 
     priceOrder(orderId, price) {
-        axios.post('http://localhost:8080/api/manager/orders/' + orderId + + price + '/update-price').then(resp => {
+        axios.post('http://localhost:8080/api/manager/orders/' + orderId + '/' + price + '/update-price').then(resp => {
+            if (resp.error) {
+                dispatcher.dispatch({type: PRICE_ORDERS_ERROR, error: resp.data.error});
+            } else {
+                dispatcher.dispatch({type: PRICE_ORDERS_SUCCESS, orderId: orderId});
+            }
+        }).catch(error => {
+            dispatcher.dispatch({type: PRICE_ORDERS_ERROR, error: error.message});
+        });
+    }
+    dateOrder(orderId, installationDate) {
+        axios.post('http://localhost:8080/api/manager/orders/' + orderId + '/' + installationDate + '/update-installationDate').then(resp => {
             if (resp.error) {
                 dispatcher.dispatch({type: PRICE_ORDERS_ERROR, error: resp.data.error});
             } else {

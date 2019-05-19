@@ -58,6 +58,14 @@ export class Worker extends React.Component {
         });
     };
 
+    onClickDone = (i) =>{
+        WorkerActions.doneOrder(i)
+        this.setState({
+            screwAmount : 0,
+        });
+        console.log(this.state.screwAmount)
+    }
+
     render() {
         return (
             <div className="worker-wrapper">
@@ -120,7 +128,7 @@ export class Worker extends React.Component {
                                                 {value.status === 'taken'
                                                     ?
                                                     <div>
-                                                        <button className="btn btn-primary" onClick={() => WorkerActions.doneOrder(value._id)}>
+                                                        <button className="btn btn-primary" onClick={() => this.onClickDone(value._id)}>
                                                             Done!
                                                         </button>
                                                     </div>
