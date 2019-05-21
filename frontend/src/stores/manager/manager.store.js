@@ -100,7 +100,7 @@ class ManagerStore extends EventEmitter {
         }
     }
 
-        getOrders() {
+    getOrders() {
         return this.orders;
     }
 

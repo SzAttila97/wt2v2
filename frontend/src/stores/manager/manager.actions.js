@@ -1,5 +1,6 @@
 import dispatcher from './manager.dispatcher';
 import axios from 'axios';
+import CustomerActions from '../customer/customer.actions';
 
 export const FETCH_ORDERS_SUCCESS = 'FETCH_ORDERS_SUCCESS';
 export const FETCH_ORDERS_ERROR = 'FETCH_ORDERS_ERROR';
@@ -44,6 +45,7 @@ class ManagerActions {
                 dispatcher.dispatch({type: OK_ORDERS_ERROR, error: resp.data.error});
             } else {
                 dispatcher.dispatch({type: OK_ORDERS_SUCCESS, orderId: orderId});
+                this.fetchOrders();
             }
         }).catch(error => {
             dispatcher.dispatch({type: OK_ORDERS_ERROR, error: error.message});
@@ -68,6 +70,7 @@ class ManagerActions {
                 dispatcher.dispatch({type: PAID_ORDERS_ERROR, error: resp.data.error});
             } else {
                 dispatcher.dispatch({type: PAID_ORDERS_SUCCESS, orderId: orderId});
+                this.fetchOrders();
             }
         }).catch(error => {
             dispatcher.dispatch({type: PAID_ORDERS_ERROR, error: error.message});
@@ -92,6 +95,7 @@ class ManagerActions {
                 dispatcher.dispatch({type: CLOSED_ORDERS_ERROR, error: resp.data.error});
             } else {
                 dispatcher.dispatch({type: CLOSED_ORDERS_SUCCESS, orderId: orderId});
+                this.fetchOrders();
             }
         }).catch(error => {
             dispatcher.dispatch({type: CLOSED_ORDERS_ERROR, error: error.message});
@@ -104,6 +108,7 @@ class ManagerActions {
                 dispatcher.dispatch({type: PRICE_ORDERS_ERROR, error: resp.data.error});
             } else {
                 dispatcher.dispatch({type: PRICE_ORDERS_SUCCESS, orderId: orderId});
+                this.fetchOrders();
             }
         }).catch(error => {
             dispatcher.dispatch({type: PRICE_ORDERS_ERROR, error: error.message});
@@ -115,6 +120,7 @@ class ManagerActions {
                 dispatcher.dispatch({type: PRICE_ORDERS_ERROR, error: resp.data.error});
             } else {
                 dispatcher.dispatch({type: PRICE_ORDERS_SUCCESS, orderId: orderId});
+                this.fetchOrders();
             }
         }).catch(error => {
             dispatcher.dispatch({type: PRICE_ORDERS_ERROR, error: error.message});

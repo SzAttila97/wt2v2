@@ -1,5 +1,6 @@
 import React from "react";
 import ManagerStore from "../../stores/manager/manager.store";
+// import WorkerStore from "../../stores/worker/worker.store";
 import ManagerActions from "../../stores/manager/manager.actions";
 
 export class Manager extends React.Component {
@@ -8,7 +9,8 @@ export class Manager extends React.Component {
         orders: ManagerStore.getOrders(),
         error: ManagerStore.getError(),
         formDate: '',
-        formPrice: ''
+        formPrice: '',
+        formStatus: ''
     };
 
     componentDidMount() {
@@ -21,6 +23,11 @@ export class Manager extends React.Component {
                 orders: ManagerStore.getOrders()
             });
         });
+        // WorkerStore.on('ordersUpdated', () => {
+        //     this.setState({
+        //         orders: WorkerStore.getOrders()
+        //     });
+        // });
 
         ManagerStore.on('errorUpdated', () => {
             this.setState({
@@ -34,9 +41,16 @@ export class Manager extends React.Component {
             formPrice: event.target.value
         });
     };
+
     onDateChange = (event) => {
         this.setState({
             formDate: event.target.value
+        });
+    };
+
+    onStatusChange = (event) => {
+        this.setState({
+            formStatus: event.target.value
         });
     };
 
@@ -45,44 +59,6 @@ export class Manager extends React.Component {
         return (
             <div className="manager-wrapper">
 
-                {this.state.error ? <div className="alert alert-danger">{this.state.error}</div> : null}
-
-                <h2>Statistics</h2>
-                <div className="table-responsive">
-                    <table className="table table-condensed table-striped">
-                        <thead>
-                        <tr>
-                            <th>OrderID</th>
-                            <th>CustomerID</th>
-                            <th>Size</th>
-                            <th>Net</th>
-                            <th>Color</th>
-                            <th>Material</th>
-                            <th>Date</th>
-                            <th>Price</th>
-                            <th>Status</th>
-                            <th></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {this.state.orders.map((value, i) => {
-                            return (
-                                <tr key={i}>
-                                    <td>{value._id}</td>
-                                    <td>{value.customerId}</td>
-                                    <td>{value.shutter ? value.shutter.width : ''} x {value.shutter ? value.shutter.height : ''}</td>
-                                    <td>{value.shutterNet ? 'Yes' : 'No'}</td>
-                                    <td>{value.shutterColor}</td>
-                                    <td>{value.shutterMaterial}</td>
-                                    <td>{value.installationDate}</td>
-                                    <td>{value.price}</td>
-                                    <td>{value.status}</td>
-                                </tr>
-                            )
-                        })}
-                        </tbody>
-                    </table>
-                </div>
                 {this.state.error ? <div className="alert alert-danger">{this.state.error}</div> : null}
 
                 <h2>Set Prices</h2>
@@ -99,7 +75,7 @@ export class Manager extends React.Component {
                             <th>Price</th>
                             <th></th>
                             <th><input onChange={this.onPriceChange} value={this.state.formPrice}
-                                            type="number"
+                                            type="number" min="1"
                                             className="form-control"/>
                             </th>
                             <th></th>
@@ -250,6 +226,62 @@ export class Manager extends React.Component {
                         })}
                         </tbody>
                     </table>
+                </div>
+
+                {this.state.error ? <div className="alert alert-danger">{this.state.error}</div> : null}
+
+                <h2>Statistics</h2>
+                <div className="table-responsive">
+                    <table className="table table-condensed table-striped">
+                        <thead>
+                        <tr>
+                            <th>OrderID</th>
+                            <th>CustomerID</th>
+                            <th>Size</th>
+                            <th>Net</th>
+                            <th>Color</th>
+                            <th>Material</th>
+                            <th>Date</th>
+                            <th>Price</th>
+                            <th>Status</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {this.state.orders.map((value, i) => {
+                            return (
+                                <tr key={i}>
+                                    <td>{value._id}</td>
+                                    <td>{value.customerId}</td>
+                                    <td>{value.shutter ? value.shutter.width : ''} x {value.shutter ? value.shutter.height : ''}</td>
+                                    <td>{value.shutterNet ? 'Yes' : 'No'}</td>
+                                    <td>{value.shutterColor}</td>
+                                    <td>{value.shutterMaterial}</td>
+                                    <td>{value.installationDate}</td>
+                                    <td>{value.price}</td>
+                                    <td>{value.status}</td>
+                                </tr>
+                            )
+                        })}
+                        </tbody>
+                    </table>
+                </div>
+                <select onChange={this.onStatusChange} value={this.state.formStatus}
+                        className="form-control" name="" id="">
+                    <option value="">Status</option>
+                    {this.state.orders.reduce((prev, val) => {
+                        if(!prev.find(e => e === val.status)) {
+                            prev.push(val.status);
+                        }
+
+                        return prev;
+                    }, []).map((val, i) => {
+                        return <option key={i} value={val}>{val}</option>
+                    })};
+                </select>
+                <div>
+
+                    {this.state.orders.filter(e => e.status === this.state.formStatus).length}
                 </div>
             </div>
         )

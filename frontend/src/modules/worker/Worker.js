@@ -38,7 +38,7 @@ export class Worker extends React.Component {
         });
     }
 
-    onClickRow (selectedRow){
+    onClickRow = (selectedRow) => {
         const louverAmount = Math.floor(selectedRow.shutter.height / 5);
         const cordLength = selectedRow.shutter.height * 2;
         const dye = selectedRow.shutter.width / 20;
@@ -46,27 +46,30 @@ export class Worker extends React.Component {
         const netSize = Math.floor((selectedRow.shutter.height + selectedRow.shutter.width)*1.1)
         this.setState({
             selectedRow: selectedRow,
-            louverAmount,
-            cordLength,
-            dye,
-            screwAmount,
+            louverAmount: louverAmount,
+            cordLength: cordLength,
+            dye: dye,
+            screwAmount: screwAmount,
             material: selectedRow.shutterMaterial,
             color:selectedRow.shutterColor,
             net:selectedRow.shutterNet,
-            netSize,
+            netSize: netSize,
             orderId : selectedRow._id
         });
     };
 
-    onClickDone = (i) =>{
-        WorkerActions.doneOrder(i)
+    onClickDone = (event, i) => {
+        event.stopPropagation();
         this.setState({
-            screwAmount : 0,
+            selectedRow: null,
+        }, () => {
+            WorkerActions.doneOrder(i);
+            console.log(this.state.selectedRow)
         });
-        console.log(this.state.screwAmount)
-    }
+    };
 
     render() {
+        console.log(this.state);
         return (
             <div className="worker-wrapper">
 
@@ -128,7 +131,7 @@ export class Worker extends React.Component {
                                                 {value.status === 'taken'
                                                     ?
                                                     <div>
-                                                        <button className="btn btn-primary" onClick={() => this.onClickDone(value._id)}>
+                                                        <button className="btn btn-primary" onClick={(event) => this.onClickDone(event, value._id)}>
                                                             Done!
                                                         </button>
                                                     </div>
@@ -143,7 +146,7 @@ export class Worker extends React.Component {
                             </table>
 
                         </div>
-                    {this.state.screwAmount === 0 ?
+                    { !this.state.selectedRow ?
                         null
                         :
                         <div>

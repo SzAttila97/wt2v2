@@ -15,7 +15,9 @@ export class Customer extends React.Component {
         formColor: 'White',
         formMaterial: 'Plastic',
         formSelectedPreset: '',
-        formNet: 0
+        formNet: 0,
+        formUserId: '',
+        tmpOrders: []
     };
 
     componentDidMount() {
@@ -61,15 +63,20 @@ export class Customer extends React.Component {
         });
     }
 
-     onUserChange = (event) => {
-         CustomerActions.updateLoggedInUser(event.target.value);
-     };
+    /*onUserChange = (event) => {
+        CustomerActions.updateLoggedInUser(event.target.value);
+    };
 
 
-     onLoginClick = (event) => {
-         CustomerActions.updateLoggedInUser(event.target.value);
-     };
+    onLoginClick = (event) => {
+        CustomerActions.updateLoggedInUser(event.target.value);
+    };*/
 
+    onUserChange = (event) => {
+        this.setState({
+            formUserId: event.target.value
+        });
+    };
 
 
     onSizeChange = (event) => {
@@ -100,13 +107,13 @@ export class Customer extends React.Component {
         });
     };
 
-    onColorChange =(event) => {
+    onColorChange = (event) => {
         this.setState({
             formColor: event.target.value
         });
     }
 
-    onMaterialChange =(event) => {
+    onMaterialChange = (event) => {
         this.setState({
             formMaterial: event.target.value
         });
@@ -122,12 +129,19 @@ export class Customer extends React.Component {
     onSubmit = (event) => {
         event.preventDefault();
 
-        if (!this.state.formWidth || !this.state.formHeight || !this.state.formColor) {
+        if (!this.state.formWidth || !this.state.formHeight || !this.state.formColor || !this.state.formMaterial) {
             alert('Hiányzó adat!');
             return;
         }
 
         const order = {
+            shutter: {
+                width: parseInt(this.state.formWidth),
+                height: parseInt(this.state.formHeight),
+            },
+            shutterNet: this.state.formNet,
+            shutterColor: this.state.formColor,
+            shutterMaterial: this.state.formMaterial,
             width: parseInt(this.state.formWidth),
             height: parseInt(this.state.formHeight),
             color: this.state.formColor,
@@ -135,7 +149,25 @@ export class Customer extends React.Component {
             isNet: this.state.formNet
         };
 
-        CustomerActions.submitOrder(order);
+        this.setState({
+            tmpOrders: this.state.tmpOrders.concat(order)
+        });
+    };
+
+    onOrder = () => {
+        this.state.tmpOrders.forEach(e => {
+            CustomerActions.submitOrder(e);
+        });
+
+        this.setState({
+           tmpOrders: []
+        });
+    };
+
+    onDeleteOrderItem = (i) => {
+        this.setState({
+           tmpOrders: this.state.tmpOrders.filter((e, index) => i !== index) //végigmegy az összes elemen, visszaadjuk az összes elemet aminek az indexe nem egyenlő azzal amit én megadtam (i)
+        });
     };
 
     render() {
@@ -144,34 +176,74 @@ export class Customer extends React.Component {
 
                 {this.state.error ? <div className="alert alert-danger">{this.state.error}</div> : null}
 
-                <div className="row">
-                    <div className="col-md-2">
-                        <div className="from-group">
+                {this.state.userId === '' ?
+
+                    <div className="row ">
+                        <div className="col-md-2"><h5>Please Log in!</h5></div>
+                        <div className="col-md-2">
                             {/*<select className="form-control" value={this.state.userId} onChange={this.onUserChange}>
                                 <option value="">Logged out</option>
                                 <option value="1">Customer 1</option>
                                 <option value="2">Customer 2</option>
                             </select>*/}
-
-
-                                <div className="form-group">
-                                    <label>Username:</label>
-                                    <input onChange={this.onUserChange} value={this.state.userId}
-                                           className="form-control"/>
-                                </div>
-                                <button variant="primary" type="submit" onClick={this.onLoginClick} value={this.state.userId}>Log in</button>
-
-
+                            <input onChange={this.onUserChange} value={this.state.formUserId}
+                                   type="string"
+                                   className="form-control"/>
+                        </div>
+                        <div className="col-md-2">
+                            <button className="btn btn-primary"
+                                    onClick={() => CustomerActions.updateLoggedInUser(this.state.formUserId)}>
+                                Login
+                            </button>
                         </div>
                     </div>
-                </div>
+                    :
+                    <div>
+                        <h2>Welcome {this.state.userId}!</h2>
+                    </div>
+                }
 
 
                 {
                     this.state.userId ?
                         <div className="row">
+
                             <div className="col-md-8">
                                 <h2>Shopping Cart</h2>
+                                <div className="table-responsive">
+                                    <table className="table table-condensed table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th>Size</th>
+                                            <th>Net</th>
+                                            <th>Color</th>
+                                            <th>Material</th>
+                                            <th></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {this.state.tmpOrders.map((value, i) => {
+                                            return (
+                                                <tr key={i}>
+                                                    <td>{value.shutter ? value.shutter.width : ''} x {value.shutter ? value.shutter.height : ''}</td>
+                                                    <td>{value.shutterNet ? 'Yes' : 'No'}</td>
+                                                    <td>{value.shutterColor}</td>
+                                                    <td>{value.shutterMaterial}</td>
+                                                    <td>
+                                                        <button onClick={() => this.onDeleteOrderItem(i)} className="btn btn-danger">Törlés</button>
+                                                    </td>
+                                                </tr>
+                                            )
+                                        })}
+                                        </tbody>
+                                    </table>
+
+                                    {this.state.tmpOrders.length > 0 ? <button onClick={() => this.onOrder()} className="btn btn-danger">Rendelés</button> : null}
+                                </div>
+                            </div>
+
+                            <div className="col-md-8">
+                                <h2>Orders </h2>
                                 <div className="table-responsive">
                                     <table className="table table-condensed table-striped">
                                         <thead>
@@ -187,7 +259,7 @@ export class Customer extends React.Component {
                                         </thead>
                                         <tbody>
                                         {this.state.orders.map((value, i) => {
-                                            if (value.status !== 'declined')return (
+                                            if (value.status !== 'declined') return (
                                                 <tr key={i}>
                                                     <td>{value._id}</td>
                                                     <td>{value.shutter ? value.shutter.width : ''} x {value.shutter ? value.shutter.height : ''}</td>
@@ -199,12 +271,14 @@ export class Customer extends React.Component {
                                                         {value.status === 'priced' //&& value.price !== null//
                                                             ?
                                                             <div>
-                                                                <button type="button" class="btn btn-success btn-block"
-                                                                    onClick={() => CustomerActions.acceptOrder(this.state.userId, value._id)}>
+                                                                <button type="button"
+                                                                        className="btn btn-success btn-block"
+                                                                        onClick={() => CustomerActions.acceptOrder(this.state.userId, value._id)}>
                                                                     Accept
                                                                 </button>
-                                                                <button type="button" class="btn btn-danger btn-block"
-                                                                    onClick={() => CustomerActions.declineOrder(this.state.userId, value._id)}>
+                                                                <button type="button"
+                                                                        className="btn btn-danger btn-block"
+                                                                        onClick={() => CustomerActions.declineOrder(this.state.userId, value._id)}>
                                                                     Decline
                                                                 </button>
                                                             </div>
@@ -214,9 +288,9 @@ export class Customer extends React.Component {
                                                     </td>
                                                     <td>
                                                         {value.installationDate ?
-                                                        <div>{value.installationDate}</div>
-                                                        :
-                                                        null}
+                                                            <div>{value.installationDate}</div>
+                                                            :
+                                                            null}
                                                     </td>
                                                 </tr>
                                             )
@@ -225,6 +299,8 @@ export class Customer extends React.Component {
                                     </table>
                                 </div>
                             </div>
+
+
                             <div className="col-md-4">
                                 <h2>New Item</h2>
                                 <form onSubmit={this.onSubmit}>
@@ -241,12 +317,14 @@ export class Customer extends React.Component {
                                     </div>
                                     <div className="form-group">
                                         <label>Height</label>
-                                        <input onChange={this.onHeightChange} value={this.state.formHeight} type="number"
+                                        <input onChange={this.onHeightChange} value={this.state.formHeight}
+                                               type="number" min="1"
                                                className="form-control"/>
                                     </div>
                                     <div className="form-group">
                                         <label>Width</label>
                                         <input onChange={this.onWidthChange} value={this.state.formWidth} type="number"
+                                               min="1"
                                                className="form-control"/>
                                     </div>
                                     <div className="form-group">
@@ -260,7 +338,8 @@ export class Customer extends React.Component {
                                     </div>
                                     <div className="form-group">
                                         <label>Color</label>
-                                        <select onChange={this.onMaterialChange} name="" id="" value={this.state.formMaterial}
+                                        <select onChange={this.onMaterialChange} name="" id=""
+                                                value={this.state.formMaterial}
                                                 className="form-control">
                                             <option value="Plastic">Plastic</option>
                                             <option value="Aluminium">Aluminium</option>
@@ -279,11 +358,11 @@ export class Customer extends React.Component {
                                     <button className="btn btn-primary">Add to cart</button>
                                 </form>
                             </div>
+
                             {this.state.error ? <div className="alert alert-danger">{this.state.error}</div> : null}
 
-                            <h2>Invoice</h2>
-                            <div className="table-responsive">
-                                <table className="table table-condensed table-striped">
+                            {/* <div className="table-responsive">
+                                <table className="table table-condensed table-striped table-dark">
                                     <thead>
                                     <tr>
                                         <th>OrderID</th>
@@ -314,11 +393,49 @@ export class Customer extends React.Component {
                                     })}
                                     </tbody>
                                 </table>
+                                {this.state.orders.filter(e => e.status === 'closed').map((value, i) => {
+                                    return (
+                                        <tr key={i}>
+                                            <td>{value._id}</td>
+                                            <td>{value.shutter ? value.shutter.width : ''} x {value.shutter ? value.shutter.height : ''}</td>
+                                            <td>{value.shutterNet ? 'Yes' : 'No'}</td>
+                                            <td>{value.shutterColor}</td>
+                                            <td>{value.shutterMaterial}</td>
+                                            <td>{value.price}</td>
+                                            <td>{value.installationDate}</td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                    )
+                                })}
+                            </div>*/}
+
+                            <div className="row">
+                                <div className="col-md-10">
+                                    <h2>Invoices</h2>
+                                    {this.state.orders.filter(e => e.status === 'closed').map((value, i) => {
+                                        return (
+                                            <ul className="list-group" key={i}>
+                                                <li className="list-group-item">Order Id: {value._id}</li>
+                                                <li className="list-group-item">Shutter
+                                                    size: {value.shutter ? value.shutter.width : ''} x {value.shutter ? value.shutter.height : ''}</li>
+                                                <li className="list-group-item">Mosquito
+                                                    net: {value.shutterNet ? 'Yes' : 'No'}</li>
+                                                <li className="list-group-item">Color: {value.shutterColor}</li>
+                                                <li className="list-group-item">Material: {value.shutterMaterial}</li>
+                                                <li className="list-group-item">Price: {value.price}</li>
+                                                <li className="list-group-item">Installation
+                                                    Date: {value.installationDate}</li>
+                                                <li className="list-group-item-flush">/*{i}*/</li>
+                                            </ul>
+                                        )
+                                    })}
+                                </div>
                             </div>
                         </div>
 
 
-                    : null
+                        : null
 
                 }
 
