@@ -9,7 +9,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 
 // Connect to db
-mongoose.connect('mongodb://localhost:27017').then(async () => {
+mongoose.connect('mongodb://localhost:27017').then(async () => { //ezt kell majd átirni a 172.21.0.10:27017
     console.log("Connected to mongo");
 });
 
@@ -26,10 +26,5 @@ app.use(express.static('public'));
 // Routes registration
 const routes = require('./routes');
 app.use(routes);
-
- // Start
-app.listen(8080, () => {
-     console.log('App is listening on port 8080');
-});
 
 module.exports = app;
