@@ -337,7 +337,7 @@ export class Customer extends React.Component {
                                         </select>
                                     </div>
                                     <div className="form-group">
-                                        <label>Color</label>
+                                        <label>Material</label>
                                         <select onChange={this.onMaterialChange} name="" id=""
                                                 value={this.state.formMaterial}
                                                 className="form-control">

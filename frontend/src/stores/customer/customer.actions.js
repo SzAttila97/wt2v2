@@ -52,6 +52,7 @@ class CustomerActions {
                 dispatcher.dispatch({type: ACCEPT_ORDERS_ERROR, error: resp.data.error});
             } else {
                 dispatcher.dispatch({type: ACCEPT_ORDERS_SUCCESS, orderId: orderId});
+                this.fetchOrders(userId)
             }
         }).catch(error => {
             dispatcher.dispatch({type: ACCEPT_ORDERS_ERROR, error: error.message});
@@ -64,6 +65,7 @@ class CustomerActions {
                 dispatcher.dispatch({type: DECLINE_ORDERS_ERROR, error: resp.data.error});
             } else {
                 dispatcher.dispatch({type: DECLINE_ORDERS_SUCCESS, orderId: orderId});
+                this.fetchOrders(userId)
             }
         }).catch(error => {
             dispatcher.dispatch({type: DECLINE_ORDERS_ERROR, error: error.message});

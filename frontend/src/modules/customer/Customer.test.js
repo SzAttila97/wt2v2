@@ -29,8 +29,11 @@ describe('Customer unit test', () => {
     it('state formHeight should default to empty string', () => {
         assert.equal(component.state.formHeight, '');
     });
-    it('state formColor should default to Fehér', () => {
-        assert.equal(component.state.formColor, 'Fehér');
+    it('state formColor should default to White', () => {
+        assert.equal(component.state.formColor, 'White');
+    });
+    it('state formMaterial should default to Plastic', () => {
+        assert.equal(component.state.formMaterial, 'Plastic');
     });
     it('state formSelectedPreset should default to empty string', () => {
         assert.equal(component.state.formSelectedPreset, '');
@@ -47,13 +50,13 @@ describe('Customer unit test', () => {
         assert.equal(component.state.formHeight, '20');
     });
 
-    it('should change size on size change event but should not update width and height if value is falsy', () => {
+    /*it('should change size on size change event but should not update width and height if value is falsy', () => {
         component.onSizeChange({target: {value: '30x20'}});
 
         assert.equal(component.state.formSelectedPreset, '');
         assert.equal(component.state.formWidth, '30');
         assert.equal(component.state.formHeight, '20');
-    });
+    });*/
 
     it('should change height and reset preset on height change event', () => {
         component.onHeightChange({target: {value: '50'}});
@@ -69,9 +72,9 @@ describe('Customer unit test', () => {
         assert.equal(component.state.formWidth, '50');
     });
     it('should change color on color change event', () => {
-        component.onColorChange({target: {value: 'Barna'}});
+        component.onColorChange({target: {value: 'Brown'}});
 
-        assert.equal(component.state.formColor, 'Barna');
+        assert.equal(component.state.formColor, 'Brown');
     });
     it('should change net on net change event', () => {
         component.onNetChange({target: {value: '1'}});
