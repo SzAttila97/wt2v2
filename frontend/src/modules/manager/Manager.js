@@ -228,9 +228,33 @@ export class Manager extends React.Component {
                     </table>
                 </div>
 
+
+
                 {this.state.error ? <div className="alert alert-danger">{this.state.error}</div> : null}
 
                 <h2>Statistics</h2>
+
+                <div className="row">
+                    <div className="col-md-2">
+                        <select onChange={this.onStatusChange} value={this.state.formStatus}
+                                className="form-control" name="" id="">
+                            <option value="">Status</option>
+                            {this.state.orders.reduce((prev, val) => {
+                                if(!prev.find(e => e === val.status)) {
+                                    prev.push(val.status);
+                                }
+
+                                return prev;
+                            }, []).map((val, i) => {
+                                return <option key={i} value={val}>{val}</option>
+                            })};
+                        </select>
+                    </div>
+                    <div className="col-md-4">
+                        {this.state.orders.filter(e => e.status === this.state.formStatus).length}
+                    </div>
+                </div>
+
                 <div className="table-responsive">
                     <table className="table table-condensed table-striped">
                         <thead>
@@ -265,23 +289,6 @@ export class Manager extends React.Component {
                         })}
                         </tbody>
                     </table>
-                </div>
-                <select onChange={this.onStatusChange} value={this.state.formStatus}
-                        className="form-control" name="" id="">
-                    <option value="">Status</option>
-                    {this.state.orders.reduce((prev, val) => {
-                        if(!prev.find(e => e === val.status)) {
-                            prev.push(val.status);
-                        }
-
-                        return prev;
-                    }, []).map((val, i) => {
-                        return <option key={i} value={val}>{val}</option>
-                    })};
-                </select>
-                <div>
-
-                    {this.state.orders.filter(e => e.status === this.state.formStatus).length}
                 </div>
             </div>
         )

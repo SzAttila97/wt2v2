@@ -360,8 +360,8 @@ export class Customer extends React.Component {
                             </div>
 
                             {this.state.error ? <div className="alert alert-danger">{this.state.error}</div> : null}
-
-                            {/* <div className="table-responsive">
+                            <h2>Invoices</h2>
+                             <div className="table-responsive">
                                 <table className="table table-condensed table-striped table-dark">
                                     <thead>
                                     <tr>
@@ -393,50 +393,10 @@ export class Customer extends React.Component {
                                     })}
                                     </tbody>
                                 </table>
-                                {this.state.orders.filter(e => e.status === 'closed').map((value, i) => {
-                                    return (
-                                        <tr key={i}>
-                                            <td>{value._id}</td>
-                                            <td>{value.shutter ? value.shutter.width : ''} x {value.shutter ? value.shutter.height : ''}</td>
-                                            <td>{value.shutterNet ? 'Yes' : 'No'}</td>
-                                            <td>{value.shutterColor}</td>
-                                            <td>{value.shutterMaterial}</td>
-                                            <td>{value.price}</td>
-                                            <td>{value.installationDate}</td>
-                                            <td>
-                                            </td>
-                                        </tr>
-                                    )
-                                })}
-                            </div>*/}
 
-                            <div className="row">
-                                <div className="col-md-10">
-                                    <h2>Invoices</h2>
-                                    {this.state.orders.filter(e => e.status === 'closed').map((value, i) => {
-                                        return (
-                                            <ul className="list-group" key={i}>
-                                                <li className="list-group-item">Order Id: {value._id}</li>
-                                                <li className="list-group-item">Shutter
-                                                    size: {value.shutter ? value.shutter.width : ''} x {value.shutter ? value.shutter.height : ''}</li>
-                                                <li className="list-group-item">Mosquito
-                                                    net: {value.shutterNet ? 'Yes' : 'No'}</li>
-                                                <li className="list-group-item">Color: {value.shutterColor}</li>
-                                                <li className="list-group-item">Material: {value.shutterMaterial}</li>
-                                                <li className="list-group-item">Price: {value.price}</li>
-                                                <li className="list-group-item">Installation
-                                                    Date: {value.installationDate}</li>
-                                                <li className="list-group-item-flush">/*{i}*/</li>
-                                            </ul>
-                                        )
-                                    })}
-                                </div>
                             </div>
                         </div>
-
-
                         : null
-
                 }
 
             </div>
