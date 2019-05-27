@@ -5,17 +5,18 @@
   "main": "index.js",
   "scripts": {
     "start": "cd frontend && npm run-script build && cd .. && node ./bin/www",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "cd frontend && npm run test"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.4",
     "cors": "^2.8.5",
+    "debug": "^4.1.1",
     "express": "^4.16.4",
     "flux": "^3.1.3",
     "mongoose": "^5.5.8",
-    "morgan": "^1.9.1",
-    "cookie-parser": "^1.4.4",
-    "body-parser": "^1.19.0"
+    "morgan": "^1.9.1"
   }
 }
