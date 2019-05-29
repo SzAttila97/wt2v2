@@ -1,12 +1,4 @@
-/*
-{"_id": "5cdf996fc5c0870a48adae8c", "width": 80, "height": 90}
-{"_id": "5cdf9976c5c0870a48adae8e", "width": 90, "height": 75}
-{"_id": "5cdf997fc5c0870a48adae90", "width": 70, "height": 85}
-{"_id": "5cdf998dc5c0870a48adae92", "width": 70, "height": 85}
-*/
-
-{"_id":{"$oid":"5cdf996fc5c0870a48adae8c"},"width":80,"height":90,"__v":{"$numberInt":"0"}}
-{"_id":{"$oid":"5cdf9976c5c0870a48adae8e"},"width":90,"height":75"},"__v":{"$numberInt":"0"}}
-{"_id":{"$oid":"5cdf997fc5c0870a48adae90"},"width":70,"height":85","__v":{"$numberInt":"0"}}
-{"_id":{"$oid":"5cdf998dc5c0870a48adae92"},"width":70,"height":85,"__v":{"$numberInt":"0"}}
-
+{"_id":{"$oid":"5cdf996fc5c0870a48adae8c"},"width":{"$numberInt":"80"},"height":{"$numberInt":"90"},"__v":{"$numberInt":"0"}}
+{"_id":{"$oid":"5cdf9976c5c0870a48adae8e"},"width":{"$numberInt":"75"},"height":{"$numberInt":"85"},"__v":{"$numberInt":"0"}}
+{"_id":{"$oid":"5cdf997fc5c0870a48adae90"},"width":{"$numberInt":"60"},"height":{"$numberInt":"70"},"__v":{"$numberInt":"0"}}
+{"_id":{"$oid":"5cdf998dc5c0870a48adae92"},"width":{"$numberInt":"90"},"height":{"$numberInt":"110"},"__v":{"$numberInt":"0"}}
