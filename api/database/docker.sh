@@ -10,7 +10,7 @@ docker run --detach --network $MONGO_NETWORK_NAME --ip $MONGO_HOST_IP mongo
 
 chmod +r ./seed/*.json
 
-mongoimport --host $MONGO_HOST_IP --db bee-shutter --collection orders ./seed/orders.json
-mongoimport --host $MONGO_HOST_IP --db bee-shutter --collection shutters ./seed/shutters.json
+mongoimport --host $MONGO_HOST_IP --db admin --collection orders ./seed/orders.json
+mongoimport --host $MONGO_HOST_IP --db admin --collection shutters ./seed/shutters.json
 
 mongo --host $MONGO_HOST_IP
