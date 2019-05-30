@@ -9,7 +9,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 
 // Connect to db
-mongoose.connect('mongodb://localhost:27017').then(async () => { //ezt kell majd átirni a 172.21.0.10:27017 (localhostot)
+mongoose.connect('mongodb://172.21.0.10:27017').then(async () => { //ezt kell majd átirni a 172.21.0.10:27017 (localhostot)
     console.log("Connected to mongo");
 });
 
