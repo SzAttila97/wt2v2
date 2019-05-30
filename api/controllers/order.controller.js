@@ -23,9 +23,6 @@ class OrderController {
         });
     }
 
-    getByUser(req, res) {
-
-    }
 
     create(req, res) {
         OrderService.create(req.body, function (err, data) {

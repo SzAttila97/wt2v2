@@ -33,8 +33,8 @@ router.get('/api/worker/orders/:orderId/done', workerController.doneOrder);
 router.get('/api/manager/orders', managerController.getOrders);
 router.get('/api/manager/orders/:orderId/ok', managerController.okOrder);
 router.get('/api/manager/orders/:orderId/paid', managerController.paidOrder);
-router.get('/api/manager/orders/:orderId/closed', managerController.closedOrder);
-router.post('/api/manager/orders/:orderId/:price/update-price', managerController.priceOrder);
+router.get('/api/manager/orders/:orderId/closed/:customerId', managerController.closedOrder);
+router.post('/api/manager/orders/:orderId/:price/update-price/:customerId', managerController.priceOrder);
 router.post('/api/manager/orders/:orderId/:installationDate/update-installationDate', managerController.dateOrder);
 
 

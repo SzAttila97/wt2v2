@@ -4,8 +4,6 @@ MONGO_NETWORK_NAME=mongodb-network
 
 docker network create -d bridge --subnet $MONGO_NETWORK_MASK $MONGO_NETWORK_NAME
 
-
-
 docker run --detach --network $MONGO_NETWORK_NAME --ip $MONGO_HOST_IP mongo
 
 chmod +r ./seed/*.json
