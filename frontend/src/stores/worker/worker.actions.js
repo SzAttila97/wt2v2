@@ -1,5 +1,6 @@
 import dispatcher from './worker.dispatcher';
 import axios from 'axios';
+import ManagerAction from '../manager/manager.actions'
 
 export const FETCH_ORDERS_SUCCESS = 'FETCH_ORDERS_SUCCESS';
 export const FETCH_ORDERS_ERROR = 'FETCH_ORDERS_ERROR';
@@ -43,6 +44,7 @@ class WorkerActions {
                 dispatcher.dispatch({type: DONE_ORDERS_ERROR, error: resp.data.error});
             } else {
                 dispatcher.dispatch({type: DONE_ORDERS_SUCCESS, orderId: orderId});
+                ManagerAction.fetchOrders();
             }
         }).catch(error => {
             dispatcher.dispatch({type: DONE_ORDERS_ERROR, error: error.message});

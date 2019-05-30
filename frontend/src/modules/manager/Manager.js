@@ -1,6 +1,5 @@
 import React from "react";
 import ManagerStore from "../../stores/manager/manager.store";
-// import WorkerStore from "../../stores/worker/worker.store";
 import ManagerActions from "../../stores/manager/manager.actions";
 
 export class Manager extends React.Component {
@@ -23,11 +22,6 @@ export class Manager extends React.Component {
                 orders: ManagerStore.getOrders()
             });
         });
-        // WorkerStore.on('ordersUpdated', () => {
-        //     this.setState({
-        //         orders: WorkerStore.getOrders()
-        //     });
-        // });
 
         ManagerStore.on('errorUpdated', () => {
             this.setState({
@@ -74,9 +68,9 @@ export class Manager extends React.Component {
                             <th>Material</th>
                             <th>Price</th>
                             <th></th>
-                            <th><input onChange={this.onPriceChange} value={this.state.formPrice}
-                                            type="number" min="1"
-                                            className="form-control"/>
+                            <th><input  onChange={this.onPriceChange} value={this.state.formPrice}
+                                            type="Number" min='1'
+                                            className="form-control bg-success text-white"/>
                             </th>
                             <th></th>
                         </tr>
@@ -99,7 +93,7 @@ export class Manager extends React.Component {
 
                                     </td>
                                     <td>
-                                        <button className="btn btn-success" onClick={() => ManagerActions.priceOrder(value._id, this.state.formPrice)}>
+                                        <button className="btn btn-success" onClick={() => ManagerActions.priceOrder(value._id, this.state.formPrice, value.customerId)}>
                                             Offer!
                                         </button>
                                     </td>
@@ -151,7 +145,7 @@ export class Manager extends React.Component {
                             <th></th>
                             <th><input onChange={this.onDateChange} value={this.state.formDate}
                                        type="date"
-                                       className="form-control"/>
+                                       className="form-control bg-success text-white"/>
                             </th>
                         </tr>
                         </thead>
@@ -250,6 +244,7 @@ export class Manager extends React.Component {
                             })};
                         </select>
                     </div>
+
                     <div className="col-md-4">
                         {this.state.orders.filter(e => e.status === this.state.formStatus).length}
                     </div>

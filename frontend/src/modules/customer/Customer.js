@@ -63,15 +63,6 @@ export class Customer extends React.Component {
         });
     }
 
-    /*onUserChange = (event) => {
-        CustomerActions.updateLoggedInUser(event.target.value);
-    };
-
-
-    onLoginClick = (event) => {
-        CustomerActions.updateLoggedInUser(event.target.value);
-    };*/
-
     onUserChange = (event) => {
         this.setState({
             formUserId: event.target.value
@@ -166,7 +157,7 @@ export class Customer extends React.Component {
 
     onDeleteOrderItem = (i) => {
         this.setState({
-           tmpOrders: this.state.tmpOrders.filter((e, index) => i !== index) //végigmegy az összes elemen, visszaadjuk az összes elemet aminek az indexe nem egyenlő azzal amit én megadtam (i)
+           tmpOrders: this.state.tmpOrders.filter((e, index) => i !== index)
         });
     };
 
@@ -181,11 +172,6 @@ export class Customer extends React.Component {
                     <div className="row ">
                         <div className="col-md-2"><h5>Please Log in!</h5></div>
                         <div className="col-md-2">
-                            {/*<select className="form-control" value={this.state.userId} onChange={this.onUserChange}>
-                                <option value="">Logged out</option>
-                                <option value="1">Customer 1</option>
-                                <option value="2">Customer 2</option>
-                            </select>*/}
                             <input onChange={this.onUserChange} value={this.state.formUserId}
                                    type="string"
                                    className="form-control"/>

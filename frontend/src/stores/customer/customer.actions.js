@@ -2,6 +2,8 @@ import dispatcher from './customer.dispatcher';
 import axios from 'axios';
 import ShutterActions from '../shutter/shutter.actions';
 import CustomerStore from '../customer/customer.store';
+import ManagerActions from '../manager/manager.actions';
+import WorkerActions from '../worker/worker.actions';
 
 export const UPDATE_USER = 'UPDATE_USER';
 
@@ -40,6 +42,7 @@ class CustomerActions {
             } else {
                 this.fetchOrders(CustomerStore.getUser());
                 ShutterActions.fetchShutters();
+                ManagerActions.fetchOrders();
             }
         }).catch(error => {
             dispatcher.dispatch({type: SAVE_ORDER_ERROR, error: error.message});
@@ -52,7 +55,8 @@ class CustomerActions {
                 dispatcher.dispatch({type: ACCEPT_ORDERS_ERROR, error: resp.data.error});
             } else {
                 dispatcher.dispatch({type: ACCEPT_ORDERS_SUCCESS, orderId: orderId});
-                this.fetchOrders(userId)
+                this.fetchOrders(userId);
+                WorkerActions.fetchOrders();
             }
         }).catch(error => {
             dispatcher.dispatch({type: ACCEPT_ORDERS_ERROR, error: error.message});
