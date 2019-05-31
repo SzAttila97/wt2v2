@@ -51,17 +51,6 @@ class OrderService {
         });
     }
 
-    getByStatus(status, cb) {
-        OrderDao.getByStatus(status, function (err, data) {
-            if (err) {
-                cb('Failed to get orders with status' + status, null);
-                return;
-            }
-
-            cb(null, data);
-        });
-    }
-
     getByCustomer(userId, cb) {
         OrderDao.getByCustomer(userId, function (err, data) {
             if (err) {
@@ -73,16 +62,6 @@ class OrderService {
         });
     }
 
-    getByWorker(workerId, cb) {
-        OrderDao.getByWorker(workerId, function (err, data) {
-            if (err) {
-                cb('Failed to get orders for worker' + workerId, null);
-                return;
-            }
-
-            cb(null, data);
-        });
-    }
 
     updateById(orderId, params, cb) {
         OrderDao.updateById(orderId, params, function (err, data) {

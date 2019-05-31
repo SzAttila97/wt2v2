@@ -11,17 +11,6 @@ class ShutterController {
             res.json(data);
         });
     }
-
-    save(req, res) {
-        shutterService.save(req.body, function (err, data) {
-            if (err) {
-                res.json({error: err});
-                return;
-            }
-
-            res.json({success: true});
-        });
-    }
 }
 
 module.exports = new ShutterController();

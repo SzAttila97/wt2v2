@@ -23,16 +23,6 @@ class CustomerController {
         });
     }
 
-    /*declineOrder(req, res) {
-        OrderService.updateById(req.params.orderId, {status: 'deleted'}, function(err, data) {
-            if (err) {
-                res.json({error: err});
-                return;
-            }
-
-            res.json(data);
-        });
-    }*/
 
     declineOrder(req, res) {
         OrderService.updateById(req.params.orderId, {status: 'declined'}, function(err, data) {

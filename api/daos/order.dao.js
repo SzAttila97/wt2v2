@@ -6,17 +6,11 @@ class OrderDao {
         Order.find({customerId: userId}).populate('shutter').exec(cb);
     }
 
-    getByWorker(workerId, cb) {
-        Order.find({workerId: workerId}).populate('shutter').exec(cb);
-    }
 
     getAll(cb) {
         Order.find({}).populate('shutter').exec(cb);
     }
 
-    getByStatus(status, cb) {
-        Order.find({status: status}).populate('shutter').exec(cb);
-    }
 
     create(order, shutter, cb) {
         const o = new Order({
